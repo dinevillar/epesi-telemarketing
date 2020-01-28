@@ -1,0 +1,15 @@
+{
+    "name": "epesi/twilio",
+    "description": "Twilio Library",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dine Villar",
+            "email": "dean.villar@gmail.com"
+        }
+    ],
+    "require": {
+        "twilio/sdk": "^5.42"
+    }
+}
