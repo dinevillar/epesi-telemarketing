@@ -1,0 +1,62 @@
+.merge_fields_accordion .label {
+    width: auto;
+}
+
+.merge_fields_container {
+    display: none;
+    padding: 3px !important;
+}
+
+.merge_fields {
+    font-size: 11px;
+}
+
+.merge_fields .epesi_data {
+    padding: 3px 6px 3px 6px;
+    line-height: 17px;
+    height: 18px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.merge_field_group {
+    cursor: pointer;
+    background: #ffffff;
+    border-bottom: none;
+    font-weight: bold;
+}
+
+.merge_fields .merge_field span {
+    margin-left: 20px;
+}
+
+.merge_fields .merge_field {
+    border-top: #cccccc 1px solid;
+    padding: 2px;
+    margin: 5px 2px 2px 2px;
+}
+
+.merge_fields .merge_field .insert_button {
+    min-height: 0px;
+    cursor: pointer;
+    border: 1px solid #666;
+    float: right;
+    padding: 3px 8px 5px 8px;
+    line-height: 10px;
+    margin-left: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: inset -1px -1px 5px gray;
+    -moz-box-shadow: inset -1px -1px 5px gray;
+    box-shadow: inset -1px -1px 5px gray;
+    background: #efefef;
+    background: -moz-linear-gradient(top, #efefef 0%, #e7e7e7 40%, #dbdbdb 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #efefef), color-stop(40%, #e7e7e7), color-stop(100%, #dbdbdb));
+    background: -webkit-linear-gradient(top, #efefef 0%, #e7e7e7 40%, #dbdbdb 100%);
+    background: -o-linear-gradient(top, #efefef 0%, #e7e7e7 40%, #dbdbdb 100%);
+    background: -ms-linear-gradient(top, #efefef 0%, #e7e7e7 40%, #dbdbdb 100%);
+    background: linear-gradient(top, #efefef 0%, #e7e7e7 40%, #dbdbdb 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efefef', endColorstr='#dbdbdb', GradientType=0);
+}
