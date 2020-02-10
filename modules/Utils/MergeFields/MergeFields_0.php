@@ -15,7 +15,6 @@ class Utils_MergeFields extends Module
 
     public function get_accordion_html_for_ck($target_element, $label, $merge_field_groups, $insert_func = false)
     {
-
         if (is_object($target_element) && get_class($target_element) == 'HTML_QuickForm_ckeditor') {
 
             $element_id = 'ckeditor_' . $target_element->getName();
@@ -31,15 +30,21 @@ class Utils_MergeFields extends Module
         } else {
             $merge_fields_theme->assign('insert_function_name', $insert_func);
         }
+        $this->init();
         return $merge_fields_theme->get_html('merge_fields_accordion');
     }
 
-    public function body()
+    public function init()
     {
         load_css(self::PATH . 'theme/merge_fields_accordion.css');
         load_js(self::PATH . 'js/merge_fields_accordion.js');
         //call init in js file.
         eval_js('Utils_MergeFields_InitJS();');
+    }
+
+    public function body()
+    {
+        $this->init();
     }
 
 }

@@ -12,6 +12,7 @@ class Utils_MergeFieldsInstall extends ModuleInstall
 
     public function install()
     {
+        Base_ThemeCommon::install_default_theme(self::module_name());
         return true;
     }
 
