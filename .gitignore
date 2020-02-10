@@ -16,6 +16,7 @@ modules/*
 !modules/Tests
 !modules/Tools
 !modules/Utils
+!modules/Telemarketing
 
 # IDE dirs/files
 .idea

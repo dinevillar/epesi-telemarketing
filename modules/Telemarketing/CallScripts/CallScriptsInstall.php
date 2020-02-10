@@ -126,6 +126,6 @@ class Telemarketing_CallScriptsInstall extends ModuleInstall
 
     public function simple_setup()
     {
-        return array('package' => __('Telemarketing'));
+        return array('package' => __('Telemarketing'), 'icon' => true);
     }
 }
