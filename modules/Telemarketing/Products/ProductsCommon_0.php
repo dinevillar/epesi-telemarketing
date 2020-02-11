@@ -18,7 +18,7 @@ class Telemarketing_ProductsCommon extends ModuleCommon
     {
         return array(
             _M('Telemarketing') =>
-                array('__submenu__' => 1, _M('Products') => array('__weight__' => 1))
+                array('__submenu__' => 1, _M('Products') => array('__weight__' => 2))
         );
     }
 
