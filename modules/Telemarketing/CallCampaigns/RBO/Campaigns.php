@@ -125,11 +125,11 @@ class Telemarketing_CallCampaigns_RBO_Campaigns extends RBO_Recordset
 //        return '<a href="javascript:void(0)" class="lbOn" rel="' . $prefix . '_followups_leightbox" onMouseDown="' . $prefix . '_set_id(' . $record['id'] . ');">' . $status[$v] . '</a>';
 //    }
 
-    function display_call_script($record, $nolink = false)
-    {
-        return Utils_RecordBrowserCommon::create_linked_label(
-            Telemarketing_CallScripts_RBO_Templates::TABLE_NAME,
-            array('Name'), $record['call_script'], $nolink
-        );
-    }
+//    function display_call_script($record, $nolink = false)
+//    {
+//        return Utils_RecordBrowserCommon::create_linked_label(
+//            Telemarketing_CallScripts_RBO_Templates::TABLE_NAME,
+//            array('Name'), $record['call_script'], $nolink
+//        );
+//    }
 }
