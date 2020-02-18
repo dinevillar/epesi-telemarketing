@@ -8,8 +8,8 @@ defined("_VALID_ACCESS") || die('Direct access forbidden');
 
 class Telemarketing_CallScripts_RBO_Templates extends RBO_Recordset
 {
-    const TABLE_NAME = "telemarketing_callscripts_templates";
-    const PAGES_TABLE_NAME = "telemarketing_callscripts_templates_pages";
+    const TABLE_NAME = "callscript_templates";
+    const PAGES_TABLE_NAME = "callscript_templates_pages";
 
     /**
      * Return list of fields in recordset.

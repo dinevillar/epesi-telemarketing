@@ -13,7 +13,7 @@ class Telemarketing_CallScriptsCommon extends ModuleCommon
     {
         return array(
             _M('Telemarketing') =>
-                array('__submenu__' => 1, _M('Call Script Templates') => array('__weight__' => 1))
+                array('__submenu__' => 1, _M('Call Script Templates') => array('__weight__' => 2))
         );
     }
 

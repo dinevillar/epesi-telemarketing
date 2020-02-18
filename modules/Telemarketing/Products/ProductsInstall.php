@@ -37,6 +37,18 @@ class Telemarketing_ProductsInstall extends ModuleInstall
             Utils_RecordBrowserCommon::register_processing_callback(
                 Telemarketing_Products_RBO_Products::TABLE_NAME,
                 array('Telemarketing_ProductsCommon', 'submit_products'));
+
+            $product_campaign_field = new RBO_Field_MultiSelect(
+                _M("Products"),
+                Telemarketing_Products_RBO_Products::TABLE_NAME,
+                array('Name', 'Code'));
+            $product_campaign_field->set_filter();
+
+            Utils_RecordBrowserCommon::new_record_field(
+                Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME,
+                $product_campaign_field->get_definition()
+            );
+
             return true;
         }
     }
@@ -63,6 +75,10 @@ class Telemarketing_ProductsInstall extends ModuleInstall
      */
     public function uninstall()
     {
+        Utils_RecordBrowserCommon::delete_record_field(
+            Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME,
+            "Products"
+        );
         $products_rbo = new Telemarketing_Products_RBO_Products();
         if ($products_rbo->uninstall()) {
             Base_ThemeCommon::uninstall_default_theme(self::module_name());
@@ -85,7 +101,8 @@ class Telemarketing_ProductsInstall extends ModuleInstall
     public function requires($v)
     {
         return array(
-            array('name' => CRM_ContactsInstall::module_name(), 'version' => 0)
+            array('name' => CRM_ContactsInstall::module_name(), 'version' => 0),
+            array('name' => TelemarketingInstall::module_name(), 'version' => 0),
         );
     }
 

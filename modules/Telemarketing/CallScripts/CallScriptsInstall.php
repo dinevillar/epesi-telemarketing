@@ -91,11 +91,6 @@ class Telemarketing_CallScriptsInstall extends ModuleInstall
         return true;
     }
 
-    public function version()
-    {
-        return array('1.0');
-    }
-
     /**
      * Returns array that contains information about modules required by this module.
      * The array should be determined by the version number that is given as parameter.
@@ -106,13 +101,16 @@ class Telemarketing_CallScriptsInstall extends ModuleInstall
     public function requires($v)
     {
         return array(
-            array('name' => Utils_RecordBrowserInstall::module_name(), 'version' => 0),
             array('name' => Utils_BBCodeInstall::module_name(), 'version' => 0),
             array('name' => Utils_PaginatorInstall::module_name(), 'version' => 0),
             array('name' => Utils_MergeFieldsInstall::module_name(), 'version' => 0),
-            array('name' => Utils_AttachmentInstall::module_name(), 'version' => 0),
-            array('name' => CRM_ContactsInstall::module_name(), 'version' => 0),
+            array('name' => TelemarketingInstall::module_name(), 'version' => 0)
         );
+    }
+
+    public function version()
+    {
+        return array(TelemarketingInstall::version);
     }
 
     public function info()
@@ -126,6 +124,6 @@ class Telemarketing_CallScriptsInstall extends ModuleInstall
 
     public function simple_setup()
     {
-        return array('package' => __('Telemarketing'), 'icon' => true);
+        return array('package' => __('Telemarketing'));
     }
 }
