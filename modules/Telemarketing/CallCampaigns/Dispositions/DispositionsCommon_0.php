@@ -58,14 +58,22 @@ class Telemarketing_CallCampaigns_DispositionsCommon extends ModuleCommon
         );
     }
 
-    public static function phonecall_disposition_crits()
-    {
-
-    }
+//    public static function phonecall_disposition_crits()
+//    {
+//
+//    }
 
     public static function submit_blacklist($values, $mode)
     {
-
+        if ($mode == 'add') {
+            if (!isset($values['blacklisted_by'])) {
+                $values['blacklisted_by'] = CRM_ContactsCommon::get_my_record()['id'];
+            }
+            if (!isset($values['timestamp'])) {
+                $values['timestamp'] = date('Y-m-d H:i:s');
+            }
+        }
+        return $values;
     }
 
     public static function campaign_get_summary($campaign, $emp = false, $translate_key = false)

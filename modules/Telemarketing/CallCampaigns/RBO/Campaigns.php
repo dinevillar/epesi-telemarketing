@@ -30,10 +30,16 @@ class Telemarketing_CallCampaigns_RBO_Campaigns extends RBO_Recordset
         $name->set_required()->set_visible();
 
         $date = new RBO_Field_Timestamp(_M("Start Date"));
-        $date->set_required()->set_visible()->set_filter();
+        $date->set_required()->set_filter();
 
         $end_date = new RBO_Field_Timestamp(_M("End Date"));
-        $end_date->set_visible()->set_filter();
+        $end_date->set_filter();
+
+        $timeless = new RBO_Field_Checkbox(_M("Timeless"));
+        $timeless->set_filter();
+
+        $duration = new RBO_Field_Calculated(_M("Duration"));
+        $duration->set_visible();
 
         $status = new RBO_Field_CommonData(
             _M("Status"), "CRM/Status", true);
@@ -54,10 +60,14 @@ class Telemarketing_CallCampaigns_RBO_Campaigns extends RBO_Recordset
         $telemarketers = new CRM_Contacts_RBO_Employee(_M('Telemarketers'));
         $telemarketers->set_multiple(true)->set_required()->set_visible()->set_filter();
 
-        $lead_list = new Telemarketing_CallCampaigns_RBO_LeadsList(_M("Lead List"));
-        $lead_list->set_required()->set_visible();
+        $list_type = new RBO_Field_CommonData(_M("List Type"), 'CallCampaign/LeadListTypes');
+        $list_type->set_required()->set_filter();
 
-        return array($name, $date, $end_date, $call_script, $telemarketers, $lead_list, $status, $permission);
+        $lead_list = new RBO_Field_Text(_M("Lead List"), 32);
+        $lead_list->set_visible();
+
+        return array($name, $date, $end_date, $timeless, $duration, $call_script,
+            $telemarketers, $list_type, $lead_list, $status, $permission);
     }
 
     function display_name($record, $nolink = false)
@@ -67,12 +77,112 @@ class Telemarketing_CallCampaigns_RBO_Campaigns extends RBO_Recordset
         );
     }
 
-    function display_end_date($record)
+    function display_duration($record)
     {
-        if (!$record['end_date']) {
-            return "[No End Date]";
+        if ($record['timeless']) {
+            return $record['start_date'] . " ~ (" . __("No End Date") . ")";
+        } else {
+            return $record['start_date'] . " ~ " . $record['end_date'];
         }
-        return $record['end_date'];
+    }
+
+    function QFfield_timeless($form, $field, $label, $mode, $default, $args, $rb_obj)
+    {
+        if ($mode === "view") {
+            return;
+        }
+        Utils_RecordBrowserCommon::QFfield_checkbox($form, $field, $label, $mode, $default, $args, $rb_obj);
+    }
+
+    function QFfield_start_date($form, $field, $label, $mode, $default, $args, $rb_obj)
+    {
+        if ($mode === "view") {
+            return;
+        }
+        Utils_RecordBrowserCommon::QFfield_timestamp($form, $field, $label, $mode, $default, $args, $rb_obj);
+    }
+
+    function QFfield_end_date($form, $field, $label, $mode, $default, $args, $rb_obj)
+    {
+        if ($mode === "view") {
+            return;
+        }
+        Utils_RecordBrowserCommon::QFfield_timestamp($form, $field, $label, $mode, $default, $args, $rb_obj);
+    }
+
+    function QFfield_duration($form, $field, $label, $mode, $default, $args, $rb_obj)
+    {
+        if ($mode === "view") {
+            $record = $rb_obj->record;
+            Utils_RecordBrowserCommon::QFfield_text($form, $field, $label, $mode, $this->display_duration($record), $args, $rb_obj);
+            $form->freeze($field);
+        }
+        return;
+    }
+
+    function QFfield_lead_list($form, $field, $label, $mode, $default, $args, $rb_obj)
+    {
+        $record = $rb_obj->record;
+        $list_type = $record['list_type'] ?: "AP";
+        $not_all = $list_type !== "AP" && $list_type !== "AC" && $list_type != "APC";
+        if ($mode === 'add' || $mode === 'edit') {
+            $criteria = Utils_RecordBrowserCommon::get_records(
+                CRM_Criteria_RBO_Rules::TABLE_NAME,
+                Telemarketing_CallCampaignsCommon::crm_criteria_callcampaign_crits()
+            );
+            $criteria_options = [
+                '' => '---'
+            ];
+            foreach ($criteria as $criterion) {
+                $criteria_options[$criterion['id']] = Utils_RecordBrowserCommon::create_default_linked_label(
+                    CRM_Criteria_RBO_Rules::TABLE_NAME, $criterion['id'], true
+                );
+            }
+            $form->addElement(
+                'select',
+                $field . "_crm_criteria",
+                __("Criteria"),
+                $criteria_options
+            );
+            if (ModuleManager::is_installed('Telemarketing/CallCampaigns/Premium/ListManager') >= 0) {
+                Telemarketing_CallCampaigns_Premium_ListManagerCommon::QFfield_lead_list($form, $field, $label, $mode, $default, $args, $rb_obj);
+            }
+            $form->addElement(
+                'text',
+                $field,
+                $label
+            );
+            if (!empty($default)) {
+                if ($not_all) {
+                    $form->setDefaults(array(
+                        $field => $default,
+                        $field . "_" . $list_type => $default
+                    ));
+                }
+            }
+        } else if ($not_all) {
+            $form->addElement(
+                'static',
+                $field,
+                $label
+            );
+            $form->setDefaults(array(
+                $field => $this->display_lead_list($record)
+            ));
+        }
+    }
+
+    function display_lead_list($record)
+    {
+        if ($record['lead_list']) {
+            return Utils_RecordBrowserCommon::create_default_linked_label(
+                $record['list_type'],
+                $record['lead_list']
+            );
+        } else {
+            $record['list_type'];
+        }
+        return Utils_CommonDataCommon::get_value('CallCampaign/LeadListTypes/' . $record['list_type']);
     }
 
 //    function display_status($record, $nolink, $desc)

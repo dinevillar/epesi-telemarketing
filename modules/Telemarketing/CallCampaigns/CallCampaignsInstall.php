@@ -17,11 +17,14 @@ class Telemarketing_CallCampaignsInstall extends ModuleInstall
      */
     public function install()
     {
+        $lead_list_types = [
+            'AP' => _M('All Contacts'),
+            'AC' => _M('All Companies'),
+            'APC' => _M('All Contacts & Companies'),
+            "crm_criteria" => _M('Contact/Company Criteria')
+        ];
+        Utils_CommonDataCommon::new_array('CallCampaign/LeadListTypes', $lead_list_types);
         Base_ThemeCommon::install_default_theme(self::module_name());
-        Utils_RecordBrowserCommon::register_datatype(
-            Telemarketing_CallCampaigns_RBO_LeadsList::type,
-            'Telemarketing_CallCampaignsCommon', 'telemarketing_callcampaign_lead_list_datatype'
-        );
         ModuleManager::include_common('Telemarketing_CallCampaigns', 0);
         $call_campaigns = new Telemarketing_CallCampaigns_RBO_Campaigns();
         if ($call_campaigns->install()) {
@@ -63,7 +66,10 @@ class Telemarketing_CallCampaignsInstall extends ModuleInstall
                 array('Telemarketing_CallCampaignsCommon', 'submit_call_campaign')
             );
             Utils_AttachmentCommon::new_addon(Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME);
-
+            $call_campaigns->set_tpl(Base_ThemeCommon::get_template_filename(
+                self::module_name(),
+                'View_entry'
+            ));
             Utils_RecordBrowserCommon::new_record(
                 'phonecall_related',
                 array('recordset' => Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME)
@@ -86,9 +92,9 @@ class Telemarketing_CallCampaignsInstall extends ModuleInstall
             );
             Utils_CommonDataCommon::remove('Contacts_Groups/telemarketer');
             if ($call_campaigns->uninstall()) {
+                Utils_CommonDataCommon::remove('CallCampaign/LeadListTypes');
 //            Variable::delete('default_user_campaign_settings', false);
                 Base_AclCommon::delete_permission(self::manage_permission);
-                Utils_RecordBrowserCommon::unregister_datatype(Telemarketing_CallCampaigns_RBO_LeadsList::type);
                 $phonecall_related = Utils_RecordBrowserCommon::get_records('phonecall_related', array(
                     'recordset' => Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME
                 ));

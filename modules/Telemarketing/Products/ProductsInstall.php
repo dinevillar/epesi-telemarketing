@@ -75,10 +75,14 @@ class Telemarketing_ProductsInstall extends ModuleInstall
      */
     public function uninstall()
     {
-        Utils_RecordBrowserCommon::delete_record_field(
-            Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME,
-            "Products"
-        );
+        try {
+            Utils_RecordBrowserCommon::delete_record_field(
+                Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME,
+                "Products"
+            );
+        } catch (Exception $e) {
+            //fail silently
+        }
         $products_rbo = new Telemarketing_Products_RBO_Products();
         if ($products_rbo->uninstall()) {
             Base_ThemeCommon::uninstall_default_theme(self::module_name());
@@ -89,6 +93,7 @@ class Telemarketing_ProductsInstall extends ModuleInstall
             );
             return true;
         }
+        return false;
     }
 
     /**

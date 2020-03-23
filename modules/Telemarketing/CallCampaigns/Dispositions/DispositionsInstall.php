@@ -53,15 +53,21 @@ class Telemarketing_CallCampaigns_DispositionsInstall extends ModuleInstall
                 array('Telemarketing_CallCampaigns_DispositionsCommon', 'disposition_addon_label')
             );
 
-            $phonecall_disposition = new RBO_Field_Select(
-                _M("Call Disposition"),
-                Telemarketing_CallCampaigns_Dispositions_RBO_Status::TABLE_NAME,
-                array('Call Campaign', 'Disposition'),
-                array('Telemarketing_CallCampaigns_DispositionsCommon', 'phonecall_disposition_crits')
+            Utils_RecordBrowserCommon::new_addon(
+                "phonecall",
+                self::module_name(), 'phonecall_addon',
+                array('Telemarketing_CallCampaigns_DispositionsCommon', 'phonecall_addon_label')
             );
-            Utils_RecordBrowserCommon::new_record_field(
-                'phonecall', $phonecall_disposition->get_definition()
-            );
+
+//            $phonecall_disposition = new RBO_Field_Select(
+//                _M("Call Disposition"),
+//                Telemarketing_CallCampaigns_Dispositions_RBO_Status::TABLE_NAME,
+//                array('Call Campaign', 'Disposition'),
+//                array('Telemarketing_CallCampaigns_DispositionsCommon', 'phonecall_disposition_crits')
+//            );
+//            Utils_RecordBrowserCommon::new_record_field(
+//                'phonecall', $phonecall_disposition->get_definition()
+//            );
 
             $blacklist = new Telemarketing_CallCampaigns_Dispositions_RBO_Blacklists();
             if ($blacklist->install()) {
