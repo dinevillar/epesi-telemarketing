@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @Author: Rodine Mark Paul L. Villar <dean.villar@gmail.com>
+ * @Date: 2/29/20
+ * @Time: 2:51 PM
+ */
+defined("_VALID_ACCESS") || die('Direct access forbidden');
 
 class Telemarketing_CallCampaigns_RulesCommon extends ModuleCommon
 {
@@ -489,6 +494,9 @@ class Telemarketing_CallCampaigns_RulesCommon extends ModuleCommon
                         break;
                     //Sales Opp
                     case 3:
+                        if (ModuleManager::is_installed("Telemarketing/CallCampaigns/Premium/SalesOpportunity") < 0) {
+                            break;
+                        }
                         $defaults = array(
                             'opportunity_name' => self::parse_rule_merge(
                                 $details['add_opp_name'], $campaign, $record, $record_type, $product, $disposition
@@ -651,6 +659,9 @@ class Telemarketing_CallCampaigns_RulesCommon extends ModuleCommon
                         break;
                     //Sales Opp
                     case 3:
+                        if (ModuleManager::is_installed("Telemarketing/CallCampaigns/Premium/SalesOpportunity") < 0) {
+                            break;
+                        }
                         $defaults = array(
                             'opportunity_name' => self::parse_rule_merge(
                                 $details['add_opp_name'], $campaign, $record, $record_type, $product, $disposition

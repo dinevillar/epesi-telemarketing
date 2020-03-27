@@ -32,7 +32,7 @@ class Telemarketing_ProductsCommon extends ModuleCommon
     {
         return Utils_RecordBrowserCommon::watchdog_label(
             Telemarketing_Products_RBO_Products::TABLE_NAME, __('Products'), $rid, $events,
-            array('ContactedBase_Products_RBO_ProductItems', 'display_name'), $details
+            array('Telemarketing_Products_RBO_Products', 'display_name'), $details
         );
     }
 

@@ -9,14 +9,30 @@ class Telemarketing_CallCampaigns_Premium_ListManagerInstall extends ModuleInsta
      */
     public function install()
     {
-        Utils_CommonDataCommon::extend_array(
-            'CallCampaign/LeadListTypes',
-            array('premium_listmanager' => _M("List Manager Lists")));
-        Premium_ListManagerCommon::add_list_type(
-            _M('Call campaign'), array(
-                'Telemarketing_CallCampaigns_Premium_ListManagerCommon', 'call_campaign_listtype'
-            )
-        );
+        try {
+            Utils_CommonDataCommon::extend_array(
+                'CallCampaign/LeadListTypes',
+                array('premium_listmanager' => _M("List Manager Lists")));
+            Utils_CommonDataCommon::extend_array(
+                'CallCampaign/Rules/Record/Called/AutoAdd',
+                array(
+                    'ToList' => _M('To List')
+                )
+            );
+            Utils_CommonDataCommon::extend_array(
+                'CallCampaign/Rules/Record/Flagged/AutoAdd',
+                array(
+                    'ToList' => _M('To List')
+                )
+            );
+            Premium_ListManagerCommon::add_list_type(
+                _M('Call campaign'), array(
+                    'Telemarketing_CallCampaigns_Premium_ListManagerCommon', 'call_campaign_listtype'
+                )
+            );
+        } catch (Exception $e) {
+            return false;
+        }
         return true;
     }
 
@@ -26,8 +42,14 @@ class Telemarketing_CallCampaigns_Premium_ListManagerInstall extends ModuleInsta
      */
     public function uninstall()
     {
-        Utils_CommonDataCommon::remove('CallCampaign/LeadListTypes/premium_listmanager');
-        Premium_ListManagerCommon::delete_list_type('Call campaign');
+        try {
+            Utils_CommonDataCommon::remove('CallCampaign/LeadListTypes/premium_listmanager');
+            Utils_CommonDataCommon::remove('CallCampaign/Rules/Record/Called/AutoAdd/ToList');
+            Utils_CommonDataCommon::remove('CallCampaign/Rules/Record/Flagged/AutoAdd/ToList');
+            Premium_ListManagerCommon::delete_list_type('Call campaign');
+        } catch (Exception $e) {
+            return false;
+        }
         return true;
     }
 
@@ -42,6 +64,7 @@ class Telemarketing_CallCampaigns_Premium_ListManagerInstall extends ModuleInsta
     {
         return array(
             array('name' => Telemarketing_CallCampaignsInstall::module_name(), 'version' => 0),
+            array('name' => Telemarketing_CallCampaigns_RulesInstall::module_name(), 'version' => 0),
             array('name' => 'Premium/ListManager', 'version' => 0),
         );
     }

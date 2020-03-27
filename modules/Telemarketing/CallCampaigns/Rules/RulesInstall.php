@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @Author: Rodine Mark Paul L. Villar <dean.villar@gmail.com>
+ * @Date: 2/29/20
+ * @Time: 12:13 PM
+ */
+defined("_VALID_ACCESS") || die('Direct access forbidden');
 
 class Telemarketing_CallCampaigns_RulesInstall extends ModuleInstall
 {
@@ -134,8 +139,7 @@ class Telemarketing_CallCampaigns_RulesInstall extends ModuleInstall
                 'Phonecall' => _M('Phonecall'),
                 'Task' => _M('Task'),
                 'Meeting' => _M('Meeting'),
-                'RecordNote' => _M('Record Note'),
-//                'ToList' => _M('To List') List Manager
+                'RecordNote' => _M('Record Note')
             )
         );
 
@@ -322,9 +326,32 @@ class Telemarketing_CallCampaigns_RulesInstall extends ModuleInstall
     {
         return array(
             array('name' => Telemarketing_CallCampaignsInstall::module_name(), 'version' => 0),
+            array('name' => Telemarketing_CallCampaigns_DispositionsInstall::module_name(), 'version' => 0),
             array('name' => CRM_PhoneCallInstall::module_name(), 'version' => 0),
             array('name' => CRM_MeetingInstall::module_name(), 'version' => 0),
-            array('name' => CRM_TasksInstall::module_name(), 'version' => 0)
+            array('name' => CRM_TasksInstall::module_name(), 'version' => 0),
+            array('name' => Base_MailInstall::module_name(), 'version' => 0)
+        );
+    }
+
+    public function version()
+    {
+        return array(TelemarketingInstall::version);
+    }
+
+    public function info()
+    {
+        return array(
+            'Author' => '<a href="mailto:dean.villar@gmail.com">Rodine Mark Paul L. Villar</a>',
+            'License' => 'MIT',
+            'Description' => 'Telemarketing Call Campaign Rules'
+        );
+    }
+
+    public function simple_setup()
+    {
+        return array(
+            'package' => __('Telemarketing')
         );
     }
 }
