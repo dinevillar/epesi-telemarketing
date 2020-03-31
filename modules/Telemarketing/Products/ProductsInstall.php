@@ -9,6 +9,7 @@ defined("_VALID_ACCESS") || die();
 
 class Telemarketing_ProductsInstall extends ModuleInstall
 {
+    const version = "1.0";
 
     /**
      * Module installation function.
@@ -121,7 +122,7 @@ class Telemarketing_ProductsInstall extends ModuleInstall
 
     public function version()
     {
-        return array("0.1");
+        return array(self::version);
     }
 
     public function info()

@@ -29,8 +29,11 @@ class Telemarketing_CallCampaigns_Dispositions_RBO_Status extends RBO_Recordset
         );
         $disposition->set_visible()->set_required()->set_filter();
 
-        $lead = new CRM_Contacts_RBO_CompanyOrContact(_M('Lead'));
-        $lead->set_visible()->set_required()->set_filter();
+        $record_id = new RBO_Field_Integer(_M('Record ID'));
+        $record_id->set_visible()->set_required();
+
+        $record_type = new RBO_Field_Text(_M('Record Type'), 64);
+        $record_type->set_required();
 
         $phonecall = new RBO_Field_Select(
             _M("Phonecall"),
@@ -44,8 +47,7 @@ class Telemarketing_CallCampaigns_Dispositions_RBO_Status extends RBO_Recordset
 
         $skip_date = new RBO_Field_Timestamp(_M('Skip Date'));
 
-        $timestamp = new RBO_Field_Calculated(_M('Timestamp'));
-        $timestamp->set_visible()->set_filter();
+        $timestamp = new RBO_Field_Timestamp(_M('Timestamp'));
 
         $telemarketer = new CRM_Contacts_RBO_Employee(_M("Telemarketer"));
         $telemarketer->set_multiple(false)->set_required()->set_visible()->set_filter();
@@ -55,7 +57,7 @@ class Telemarketing_CallCampaigns_Dispositions_RBO_Status extends RBO_Recordset
         $locked_to = new RBO_Field_Integer(_M('Locked To'));
 
         return array(
-            $campaign, $disposition, $lead, $phonecall, $talktime, $skip_date, $timestamp,
+            $campaign, $disposition, $record_id, $record_type, $phonecall, $talktime, $skip_date, $timestamp,
             $telemarketer, $call_back_time, $locked_to
         );
     }
@@ -68,6 +70,16 @@ class Telemarketing_CallCampaigns_Dispositions_RBO_Status extends RBO_Recordset
 //        Utils_RecordBrowserCommon::QFfield_select($form, $field, $label, $mode, $default, $desc, $rb_obj);
 //        $form->freeze($field);
 //    }
+
+    function display_record_id($record, $nolink = false)
+    {
+        $r = Utils_RecordBrowserCommon::get_record($record['record_type'], $record['record_id']);
+        if ($record['record_type'] == 'contact') {
+            return CRM_ContactsCommon::contact_format_default($r);
+        } else if ($record['record_type'] == 'company') {
+            return CRM_ContactsCommon::company_format_default($r);
+        }
+    }
 
     function display_talk_time($record, $nolink = false)
     {

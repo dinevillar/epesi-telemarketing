@@ -18,9 +18,13 @@ class Telemarketing_CallCampaigns_Dispositions_RBO_Blacklists extends RBO_Record
     {
         $fields = array();
 
-        $lead = new CRM_Contacts_RBO_CompanyOrContact(_M('Lead'));
-        $lead->set_visible()->set_required()->set_filter();
-        $fields[] = $lead;
+        $record_id = new RBO_Field_Integer(_M('Record ID'));
+        $record_id->set_visible()->set_required();
+        $fields[] = $record_id;
+
+        $record_type = new RBO_Field_Text(_M('Record Type'), 64);
+        $record_type->set_required();
+        $fields[] = $record_type;
 
         $reason = new RBO_Field_LongText(_M('Reason'));
         $fields[] = $reason;
@@ -44,10 +48,24 @@ class Telemarketing_CallCampaigns_Dispositions_RBO_Blacklists extends RBO_Record
         return $fields;
     }
 
+    public function display_record_id($record)
+    {
+        $id = 'P:' . $record['record_id'];
+        if ($record['record_type'] == 'company') {
+            $id = 'C:' . $record['record_id'];
+        }
+        return CRM_ContactsCommon::autoselect_company_contact_format($id);
+    }
+
     public function display_blacklisted_by($record)
     {
         $r = Utils_RecordBrowserCommon::get_record('contact', $record['created_by']);
         return CRM_ContactsCommon::contact_format_default($r);
+    }
+
+    function QFfield_record_type()
+    {
+        return false;
     }
 
     function QFfield_record_id($form, $field, $label, $mode, $default, $args, $rb_obj)
@@ -55,9 +73,14 @@ class Telemarketing_CallCampaigns_Dispositions_RBO_Blacklists extends RBO_Record
         CRM_ContactsCommon::QFfield_company_contact($form, $field, $label, $mode, $default, $args, $rb_obj);
     }
 
-    public function display_timestamp($record)
+    function QFfield_timestamp($form, $field, $label, $mode, $default)
     {
-        return $record[':created_on'];
+        if ($mode == 'view') {
+            $form->addElement('static', $field, $label);
+            $form->setDefaults(array(
+                $field => $default
+            ));
+        }
     }
 
 }

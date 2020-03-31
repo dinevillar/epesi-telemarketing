@@ -17,7 +17,14 @@ class Telemarketing_CallCampaigns_Rules extends Module
     {
         $this->mode = 'record';
         $this->campaign = $campaign;
+        $this->campaign_rules();
+    }
 
+    public function campaign_rules()
+    {
+        if (!$this->mode) {
+            $this->mode = "admin";
+        }
         if ($this->mode == 'admin') {
             Base_ThemeCommon::load_css('Utils_RecordBrowser', 'View_entry');
         }
@@ -30,7 +37,7 @@ class Telemarketing_CallCampaigns_Rules extends Module
 
         $this->theme = $this->init_module(Base_Theme::module_name());
         $this->form = $this->init_module(Libs_QuickForm::module_name());
-        $mode = $this->form->addElement('hidden', 'mode', '', array('id' => "rules_hidden_mode"));
+        $rule_mode = $this->form->addElement('hidden', 'mode', '', array('id' => "rules_hidden_mode"));
         if ($this->form->validate()) {
             $spec_values = $this->form->exportValues();
             $values = $this->form->getSubmitValues();
@@ -48,7 +55,7 @@ class Telemarketing_CallCampaigns_Rules extends Module
                 $this->save_rules($values);
             }
         }
-        $mode->setValue("");
+        $rule_mode->setValue("");
         $theme_rules = array();
         if ($this->mode == 'admin') {
             $rules = Variable::get('telemarketing_default_rules');

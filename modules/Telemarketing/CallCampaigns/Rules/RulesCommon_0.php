@@ -707,5 +707,12 @@ class Telemarketing_CallCampaigns_RulesCommon extends ModuleCommon
         return $return;
     }
 
+    public static function call_campaign_settings_tab()
+    {
+        return array(
+            'label' => __('Rules'),
+            'func' => 'campaign_rules'
+        );
+    }
 
 }

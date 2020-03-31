@@ -8,6 +8,7 @@ defined("_VALID_ACCESS") || die();
 
 class Telemarketing_CallCampaignsInstall extends ModuleInstall
 {
+    const SETTINGS_TABLE = 'telemarketing_callcampaigns_settings';
     const manage_permission = 'Manage Call Campaigns';
 
     /**
@@ -74,6 +75,7 @@ class Telemarketing_CallCampaignsInstall extends ModuleInstall
                 'phonecall_related',
                 array('recordset' => Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME)
             );
+            $this->settings();
             return true;
         }
     }
@@ -103,12 +105,69 @@ class Telemarketing_CallCampaignsInstall extends ModuleInstall
                         Utils_RecordBrowserCommon::delete_record('phonecall_related', $related['id']);
                     }
                 }
+                $this->settings(false);
                 return true;
             }
         } catch (Exception $e) {
             var_dump($e);
         }
         return false;
+    }
+
+    public function settings($install = true)
+    {
+        $campaign_tab = Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME;
+
+        if ($install) {
+            Utils_RecordBrowserCommon::new_addon(
+                $campaign_tab,
+                'Telemarketing/CallCampaigns',
+                'settings_addon',
+                array(
+                    'Telemarketing_CallCampaignsCommon',
+                    'settings_addon_label')
+            );
+
+            DB::CreateTable(self::SETTINGS_TABLE,
+                '`id` I AUTO KEY,' .
+                '`call_campaign_id` I,' .
+                '`settings` XL',
+                array('constraints' =>
+                    ", UNIQUE KEY `cc_settings_uniq_call_campaign_id` (call_campaign_id), FOREIGN KEY (call_campaign_id) REFERENCES {$campaign_tab}_data_1(id) ON UPDATE CASCADE ON DELETE CASCADE")
+            );
+
+            $default_settings = array(
+                'auto_call' => true,
+                'auto_call_delay' => 3,
+                'filter_inv_phone' => true,
+                'auto_scroll' => true,
+                'auto_scroll_speed' => 150,
+                'allow_skip' => true,
+                'newest_records_first' => false,
+                'prioritize_call_backs' => true,
+                'optimal_call_time_start' => array(
+                    'H' => '9',
+                    'i' => '0'
+                ),
+                'optimal_call_time_end' => array(
+                    'H' => '21',
+                    'i' => '0'
+                ),
+                'filter_not_optimal_call_time' => false,
+                'prio_work' => 1,
+                'prio_mobile' => 2,
+                'prio_home' => 3,
+            );
+            Variable::set("telemarketing_default_settings", $default_settings);
+        } else {
+            Utils_RecordBrowserCommon::delete_addon(
+                $campaign_tab,
+                'Telemarketing/CallCampaigns',
+                'settings_addon'
+            );
+            Variable::delete("telemarketing_default_settings", false);
+            DB::DropTable(self::SETTINGS_TABLE);
+        }
     }
 
     public function version()
@@ -142,7 +201,8 @@ class Telemarketing_CallCampaignsInstall extends ModuleInstall
         return array(
             array('name' => CRM_CriteriaInstall::module_name(), 'version' => 0),
             array('name' => TelemarketingInstall::module_name(), 'version' => 0),
-            array('name' => Telemarketing_CallScriptsInstall::module_name(), 'version' => 0)
+            array('name' => Telemarketing_CallScriptsInstall::module_name(), 'version' => 0),
+            array('name' => Telemarketing_ContactLocalTimeInstall::module_name(), 'version' => 0)
         );
     }
 }

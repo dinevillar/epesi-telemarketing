@@ -1,9 +1,3 @@
-/**
- * @User: Rodine Mark Paul L. Villar <dean.villar@gmail.com>
- * @Date: 12/22/2015
- * @Time: 12:17 AM
- */
-
 var CallScripts = {
   contentContainer: '',
   ckModulePath: '',
@@ -127,23 +121,21 @@ var CallScripts = {
   deletePage: function () {
     if (this.currentPage > 1) {
       var context = this
-      Epesi.confirm('Are you sure you want to delete page ' + this.currentPage + '?').then(function (result) {
-        if (result) {
-          delete context.pageCache[context.currentPage]
-          for (var page in context.pageCache) {
-            var pageInt = parseInt(page)
-            if (pageInt > parseInt(context.currentPage)) {
-              var content = context.pageCache[page]
-              context.pageCache[pageInt - 1] = content
-              delete context.pageCache[page]
-            }
+      if (confirm('Are you sure you want to delete page ' + this.currentPage + '?')) {
+        delete context.pageCache[context.currentPage]
+        for (var page in context.pageCache) {
+          var pageInt = parseInt(page)
+          if (pageInt > parseInt(context.currentPage)) {
+            var content = context.pageCache[page]
+            context.pageCache[pageInt - 1] = content
+            delete context.pageCache[page]
           }
-          CallScripts.updateFormFromCache()
-          //TODO: Temporary
-          items_total = items_total - 1
-          Paginator.paginate(context.currentPage >= items_total ? items_total : context.currentPage, 1)
         }
-      })
+        CallScripts.updateFormFromCache()
+        //TODO: Temporary
+        items_total = items_total - 1
+        Paginator.paginate(context.currentPage >= items_total ? items_total : context.currentPage, 1)
+      }
     }
   },
   ckExec: function (cmd) {

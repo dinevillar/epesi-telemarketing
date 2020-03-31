@@ -17,7 +17,11 @@ class Telemarketing_CallCampaigns_DispositionsCommon extends ModuleCommon
         $disps = Utils_CommonDataCommon::get_array('CallCampaign/Dispositions');
         $label = __('Call Campaign') . ': ' . $call_campaign['name'] . " ";
         if ($record['disposition']) {
-            $label .= "[" . CRM_ContactsCommon::company_contact_format_default($record['lead'], true);
+            if ($record['record_type'] == 'contact') {
+                $label .= "[" . CRM_ContactsCommon::contact_format_no_company($record['record_id'], true);
+            } else if ($record['record_type'] == 'company') {
+                $label .= "[" . CRM_ContactsCommon::company_format_default($record['record_id'], true);
+            }
             $label .= ", " . $disps[$record['disposition']];
         }
         $label .= "]";
@@ -117,5 +121,19 @@ class Telemarketing_CallCampaigns_DispositionsCommon extends ModuleCommon
         return $dispositions;
     }
 
+    public static function clear_lock($user, $campaign)
+    {
+        if (is_array($user) && isset($user['id'])) {
+            $user = $user['id'];
+        }
+        if (is_array($campaign)) {
+            $campaign = $campaign['id'];
+        }
+        $disp_rbo = new Telemarketing_CallCampaigns_Dispositions_RBO_Status();
+        $locked_records = $disp_rbo->get_records(array("locked_to" => $user, "call_campaign" => $campaign));
+        foreach ($locked_records as $locked_record) {
+            $disp_rbo->update_record($locked_record['id'], array("locked_to" => null));
+        }
+    }
 }
 
