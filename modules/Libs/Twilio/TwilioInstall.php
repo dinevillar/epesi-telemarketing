@@ -1,37 +1,58 @@
 <?php
-
+/**
+ * @Author: Rodine Mark Paul L. Villar <dean.villar@gmail.com>
+ * @Date: 3/30/2020
+ * @Time: 2:32 AM
+ */
 defined("_VALID_ACCESS") || die();
 
 class Libs_TwilioInstall extends ModuleInstall
 {
 
-    /**
-     * Module installation function.
-     * @return true if installation success, false otherwise
-     */
     public function install()
     {
-        // TODO: Implement install() method.
+        $pm = new Libs_Twilio_RBO_PhoneMappings();
+        if ($pm->install()) {
+            $pm->add_access('view', 'ACCESS:employee', array('employee' => 'USER'));
+            $pm->add_access('add', 'ADMIN');
+            $pm->add_access('view', 'ADMIN');
+            $pm->add_access('edit', 'ACCESS:employee', array('employee' => 'USER'));
+            $pm->add_access('edit', 'ADMIN');
+            $pm->add_access('delete', 'ADMIN');
+            $pm->set_caption(__("Twilio Phone Number Mapping"));
+            $pm->register_processing_callback(array('Libs_TwilioCommon', 'submit_phone_mappings'));
+        }
+        Base_ThemeCommon::install_default_theme(self::module_name());
+        return true;
     }
 
-    /**
-     * Module uninstallation function.
-     * @return true if installation success, false otherwise
-     */
     public function uninstall()
     {
-        // TODO: Implement uninstall() method.
+        $pm = new Libs_Twilio_RBO_PhoneMappings();
+        $pm->unregister_processing_callback(array('Libs_TwilioCommon', 'submit_phone_mappings'));
+        $pm->uninstall();
+        Base_ThemeCommon::uninstall_default_theme(self::module_name());
+        return true;
     }
 
-    /**
-     * Returns array that contains information about modules required by this module.
-     * The array should be determined by the version number that is given as parameter.
-     *
-     * @param int $v module version number
-     * @return array Array constructed as following: array(array('name'=>$ModuleName,'version'=>$ModuleVersion),...)
-     */
+    public function version()
+    {
+        return array('5.12');
+    }
+
     public function requires($v)
     {
-        // TODO: Implement requires() method.
+        return array(
+            array('name' => 'CRM_Contacts', 'version' => 0),
+            array('name' => 'Apps_WebPhone', 'version' => 0)
+        );
+    }
+
+    public function info()
+    {
+        return array(
+            'Author' => '<a href="mailto:dean.villar@gmail.com">Rodine Mark Paul L. Villar</a>'
+        , 'Description' => 'API Integration for Twilio Telephony'
+        );
     }
 }
