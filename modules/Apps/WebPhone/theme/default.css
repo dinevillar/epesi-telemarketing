@@ -1,0 +1,271 @@
+#top_bar_1 .web-phone-bar:hover {
+    background: #226622;
+    background: -moz-linear-gradient(top, #226622 0%, #71b871 1%, #58ab58 49%, #379b37 51%, #63b163 95%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #226622), color-stop(1%, #71b871), color-stop(49%, #58ab58), color-stop(51%, #379b37), color-stop(95%, #63b163), color-stop(100%, #226622));
+    background: -webkit-linear-gradient(top, #226622 0%, #71b871 1%, #58ab58 49%, #379b37 51%, #63b163 95%);
+    background: -o-linear-gradient(top, #226622 0%, #71b871 1%, #58ab58 49%, #379b37 51%, #63b163 95%);
+    background: -ms-linear-gradient(top, #226622 0%, #71b871 1%, #58ab58 49%, #379b37 51%, #63b163 95%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5ada5a', endColorstr='#308630', GradientType=0);
+    background: linear-gradient(top, #226622 0%, #71b871 1%, #58ab58 49%, #379b37 51%, #63b163 95%);
+}
+
+#top_bar_1 .web-phone-bar {
+    height: 30px;
+    text-align: left;
+    width: 200px;
+    background: #226622;
+    background: -moz-linear-gradient(top, #709c70 0%, #4d844d 49%, #226622 51%, #649464 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #709c70), color-stop(49%, #4d844d), color-stop(51%, #226622), color-stop(100%, #649464));
+    background: -webkit-linear-gradient(top, #709c70 0%, #4d844d 49%, #226622 51%, #649464 100%);
+    background: -o-linear-gradient(top, #709c70 0%, #4d844d 49%, #226622 51%, #649464 100%);
+    background: -ms-linear-gradient(top, #709c70 0%, #4d844d 49%, #226622 51%, #649464 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#64B164', endColorstr='#307030', GradientType=0);
+    background: linear-gradient(top, #709c70 0%, #4d844d 49%, #226622 51%, #649464 100%);
+    -webkit-box-shadow: 0px 0px 3px #000000;
+    -moz-box-shadow: 0px 0px 3px #000000;
+    box-shadow: 0px 0px 3px #000000;
+}
+
+#web-phone-bar1 {
+    width: 100%;
+    height: 22px;
+    cursor: pointer;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin: 0 0 0 auto;
+}
+
+.web-phone-text {
+    font-size: 11px;
+    padding-top: 4px;
+    color: white;
+    font-weight: bold;
+    text-align: left;
+    overflow: auto;
+}
+
+.web-phone-icon {
+    margin: auto 10px auto 5px;
+    width: 20px;
+    height: 20px;
+    float: left;
+    background-image: url("Apps/WebPhone/phone.png");
+}
+
+.web-phone-icon-mic {
+    margin-top: -3px;
+    width: 20px;
+    height: 20px;
+    background-image: url("Apps/WebPhone/mic.png");
+    float: right;
+}
+
+.web-phone-icon-down {
+    margin-top: -3px;
+    width: 20px;
+    height: 20px;
+    float: right;
+    background-image: url("Apps/WebPhone/arrow_down.png");
+}
+
+.web-phone-icon-up {
+    margin-top: -3px;
+    width: 20px;
+    height: 20px;
+    float: right;
+    background-image: url("Apps/WebPhone/arrow_up.png");
+}
+
+#web_phone_slide {
+    position: absolute;
+    width: 340px;
+    height: 380px;
+    margin-left: -10px;
+}
+
+#web_phone_slide .container {
+    width: 100%;
+    border: none;
+    table-layout: fixed;
+    background-color: #FFFFFF;
+}
+
+#web_phone_slide .layer div, #web_phone_slide .layer table {
+    width: 100%;
+    height: 100%;
+}
+
+#web_phone_slide .header {
+    color: #FFFFFF;
+    font-weight: bold;
+    height: 20px;
+    background: #8c8c8c;
+    background: -moz-linear-gradient(top, #8c8c8c 0%, #6f6f6f 50%, #4d4d4d 51%, #8c8c8c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #8c8c8c), color-stop(50%, #6f6f6f), color-stop(51%, #4d4d4d), color-stop(100%, #8c8c8c));
+    background: -webkit-linear-gradient(top, #8c8c8c 0%, #6f6f6f 50%, #4d4d4d 51%, #8c8c8c 100%);
+    background: -o-linear-gradient(top, #8c8c8c 0%, #6f6f6f 50%, #4d4d4d 51%, #8c8c8c 100%);
+    background: -ms-linear-gradient(top, #8c8c8c 0%, #6f6f6f 50%, #4d4d4d 51%, #8c8c8c 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8c8c8c', endColorstr='#8c8c8c', GradientType=0);
+    background: linear-gradient(top, #8c8c8c 0%, #6f6f6f 50%, #4d4d4d 51%, #8c8c8c 100%);
+}
+
+#web_phone_slide .title {
+    text-align: left;
+    vertical-align: middle;
+    padding-bottom: 3px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#web_phone_slide .actions {
+    text-align: left;
+}
+
+#web_phone_slide .controls {
+    text-align: right;
+    width: 10%;
+}
+
+#web_phone_slide .content {
+    background-color: whitesmoke;
+    padding: 0 20px;
+    width: 275px !important;
+}
+
+#web_phone_slide .web_phone_screen {
+    border: 2px solid #B3B3B3;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 1px 1px 3px black;
+    -moz-box-shadow: 1px 1px 3px black;
+    box-shadow: 1px 1px 3px black;
+    width: 95%;
+    height: 30px;
+    padding: 2px 4px;
+    margin: 3px auto;
+    font-size: 20pt;
+    text-align: right;
+}
+
+#web_phone_slide .web_phone_button {
+    font-size: 20pt;
+    color: #ffffff;
+    width: 60px;
+    height: 40px;
+    padding: 2px 4px 6px 4px;
+    font-weight: bold;
+    border: none;
+    margin: 3px;
+    cursor: pointer;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 1px 1px 3px black;
+    -moz-box-shadow: 1px 1px 3px black;
+    box-shadow: 1px 1px 3px black;
+    background: #226622;
+    background: -moz-linear-gradient(top, #709c70 0%, #4d844d 49%, #226622 51%, #649464 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #709c70), color-stop(49%, #4d844d), color-stop(51%, #226622), color-stop(100%, #649464));
+    background: -webkit-linear-gradient(top, #709c70 0%, #4d844d 49%, #226622 51%, #649464 100%);
+    background: -o-linear-gradient(top, #709c70 0%, #4d844d 49%, #226622 51%, #649464 100%);
+    background: -ms-linear-gradient(top, #709c70 0%, #4d844d 49%, #226622 51%, #649464 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#64B164', endColorstr='#307030', GradientType=0);
+    background: linear-gradient(top, #709c70 0%, #4d844d 49%, #226622 51%, #649464 100%);
+}
+
+#web_phone_slide .web_phone_button:hover {
+    background: #226622;
+    background: -moz-linear-gradient(top, #226622 0%, #71b871 1%, #58ab58 49%, #379b37 51%, #63b163 95%, #226622 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #226622), color-stop(1%, #71b871), color-stop(49%, #58ab58), color-stop(51%, #379b37), color-stop(95%, #63b163), color-stop(100%, #226622));
+    background: -webkit-linear-gradient(top, #226622 0%, #71b871 1%, #58ab58 49%, #379b37 51%, #63b163 95%, #226622 100%);
+    background: -o-linear-gradient(top, #226622 0%, #71b871 1%, #58ab58 49%, #379b37 51%, #63b163 95%, #226622 100%);
+    background: -ms-linear-gradient(top, #226622 0%, #71b871 1%, #58ab58 49%, #379b37 51%, #63b163 95%, #226622 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5ada5a', endColorstr='#2d602d', GradientType=0);
+    background: linear-gradient(top, #226622 0%, #71b871 1%, #58ab58 49%, #379b37 51%, #63b163 95%, #226622 100%);
+}
+
+#web_phone_slide .web_phone_button_blue {
+    background: #3f6a8c;
+    background: -moz-linear-gradient(top, #3f6a8c 0%, #5087b2 50%, #3f6a8c 51%, #335772 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3f6a8c), color-stop(50%, #5087b2), color-stop(51%, #3f6a8c), color-stop(100%, #335772));
+    background: -webkit-linear-gradient(top, #3f6a8c 0%, #5087b2 50%, #3f6a8c 51%, #335772 100%);
+    background: -o-linear-gradient(top, #3f6a8c 0%, #5087b2 50%, #3f6a8c 51%, #335772 100%);
+    background: -ms-linear-gradient(top, #3f6a8c 0%, #5087b2 50%, #3f6a8c 51%, #335772 100%);
+    background: linear-gradient(top, #3f6a8c 0%, #5087b2 50%, #3f6a8c 51%, #335772 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f6a8c', endColorstr='#335772', GradientType=0);
+}
+
+#web_phone_slide .web_phone_button_blue:hover {
+    background: #7B9CBD;
+    background: -moz-linear-gradient(top, #7B9CBD 0%, #5087b2 50%, #7B9CBD 51%, #7B9CBD 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7B9CBD), color-stop(50%, #5087b2), color-stop(51%, #7B9CBD), color-stop(100%, #7B9CBD));
+    background: -webkit-linear-gradient(top, #7B9CBD 0%, #5087b2 50%, #7B9CBD 51%, #7B9CBD 100%);
+    background: -o-linear-gradient(top, #7B9CBD 0%, #5087b2 50%, #7B9CBD 51%, #7B9CBD 100%);
+    background: -ms-linear-gradient(top, #7B9CBD 0%, #5087b2 50%, #7B9CBD 51%, #7B9CBD 100%);
+    background: linear-gradient(top, #7B9CBD 0%, #5087b2 50%, #7B9CBD 51%, #7B9CBD 100%);
+}
+
+#web_phone_slide .web_phone_button_yellow {
+    background: #cccc33;
+    background: -moz-linear-gradient(top, #cccc33 0%, #d6d65b 50%, #cccc33 51%, #a3a328 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cccc33), color-stop(50%, #d6d65b), color-stop(51%, #cccc33), color-stop(100%, #a3a328));
+    background: -webkit-linear-gradient(top, #cccc33 0%, #d6d65b 50%, #cccc33 51%, #a3a328 100%);
+    background: -o-linear-gradient(top, #cccc33 0%, #d6d65b 50%, #cccc33 51%, #a3a328 100%);
+    background: -ms-linear-gradient(top, #cccc33 0%, #d6d65b 50%, #cccc33 51%, #a3a328 100%);
+    background: linear-gradient(top, #cccc33 0%, #d6d65b 50%, #cccc33 51%, #a3a328 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccc33', endColorstr='#a3a328', GradientType=0);
+}
+
+#web_phone_slide .web_phone_button_yellow:hover {
+    background: #d6d65b;
+    background: -moz-linear-gradient(top, #d6d65b 0%, #cccc33 50%, #d6d65b 51%, #d6d65b 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d6d65b), color-stop(50%, #cccc33), color-stop(51%, #cccc33), color-stop(100%, #d6d65b));
+    background: -webkit-linear-gradient(top, #d6d65b 0%, #cccc33 50%, #d6d65b 51%, #d6d65b 100%);
+    background: -o-linear-gradient(top, #d6d65b 0%, #cccc33 50%, #d6d65b 51%, #d6d65b 100%);
+    background: -ms-linear-gradient(top, #d6d65b 0%, #cccc33 50%, #d6d65b 51%, #d6d65b 100%);
+    background: linear-gradient(top, #d6d65b 0%, #cccc33 50%, #d6d65b 51%, #d6d65b 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d6d65b', endColorstr='#d6d65b', GradientType=0);
+}
+
+#web_phone_slide .web_phone_button_red {
+    background: #ba4f4f;
+    background: -moz-linear-gradient(top, #ba4f4f 0%, #c77272 50%, #ba4f4f 51%, #943f3f 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ba4f4f), color-stop(50%, #c77272), color-stop(51%, #ba4f4f), color-stop(100%, #943f3f));
+    background: -webkit-linear-gradient(top, #ba4f4f 0%, #c77272 50%, #ba4f4f 51%, #943f3f 100%);
+    background: -o-linear-gradient(top, #ba4f4f 0%, #c77272 50%, #ba4f4f 51%, #943f3f 100%);
+    background: -ms-linear-gradient(top, #ba4f4f 0%, #c77272 50%, #ba4f4f 51%, #943f3f 100%);
+    background: linear-gradient(top, #ba4f4f 0%, #c77272 50%, #ba4f4f 51%, #943f3f 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ba4f4f', endColorstr='#943f3f', GradientType=0);
+}
+
+#web_phone_slide .web_phone_button_red:hover {
+    background: #c77272;
+    background: -moz-linear-gradient(top, #c77272 0%, #ba4f4f 50%, #c77272 51%, #c77272 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #c77272), color-stop(50%, #ba4f4f), color-stop(51%, #c77272), color-stop(100%, #c77272));
+    background: -webkit-linear-gradient(top, #c77272 0%, #ba4f4f 50%, #c77272 51%, #c77272 100%);
+    background: -o-linear-gradient(top, #c77272 0%, #ba4f4f 50%, #c77272 51%, #c77272 100%);
+    background: -ms-linear-gradient(top, #c77272 0%, #ba4f4f 50%, #c77272 51%, #c77272 100%);
+    background: linear-gradient(top, #c77272 0%, #ba4f4f 50%, #c77272 51%, #c77272 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c77272', endColorstr='#ba4f4f', GradientType=0);
+}
+
+#web_phone_slide .web_phone_status_c {
+    padding: 2px;
+    border-radius: 5px;
+}
+
+#web_phone_slide .web_phone_status_error {
+    background-color: #ba4f4f;
+    color: white;
+}
+
+#web_phone_slide .web_phone_status_ok {
+    background-color: #226622;
+    color: white;
+}
+
+#web_phone_slide .web_phone_status_normal {
+    background-color: #3f6a8c;
+    color: white;
+}
