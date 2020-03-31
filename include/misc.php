@@ -319,7 +319,7 @@ function get_epesi_url() {
     if(defined('EPESI_URL')) return rtrim(EPESI_URL,'/');
 	if(php_sapi_name() == 'cli')
 		return dirname(dirname(__FILE__));
-	$protocol = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS'])!== "off") ? 'https://' : 'http://';
+	$protocol = (isset($_SERVER['HTTPS']) && strtolower()!== "off") ? 'https://' : 'http://';
     $domain_name = '';
     if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST']) {
         $domain_name = $_SERVER['HTTP_HOST'];

@@ -15,6 +15,12 @@ class CRM_CriteriaCommon extends ModuleCommon
             return array();
     }
 
+    /**
+     * @param $record
+     * @param $mode
+     * @return mixed
+     * @throws Exception
+     */
     public static function submit_criteria($record, $mode)
     {
         if ($mode === "edit") {
@@ -32,5 +38,14 @@ class CRM_CriteriaCommon extends ModuleCommon
             );
         }
         return $record;
+    }
+
+    public static function get_raw_crits($criteria, $tab_alias = 'rest')
+    {
+        if (is_numeric($criteria)) {
+            $criteria = Utils_RecordBrowserCommon::get_record('crm_criteria', $criteria);
+        }
+        $qb = new Utils_RecordBrowser_QueryBuilder($criteria['recordset'], $tab_alias);
+        return $qb->to_sql(Utils_RecordBrowser_QueryBuilderIntegration::json_to_crits($criteria['criteria']));
     }
 }

@@ -106,7 +106,7 @@ var Epesi = {
                 this.forms = {};
                 this.forms_freezed = {};
             }
-				
+
 			if (!Object.keys(this.forms).length) jQuery(window).unbind('beforeunload');
 		},
         freeze: function(f) {
@@ -281,6 +281,23 @@ var Epesi = {
 		document.getElementsByTagName("head").item(0).appendChild(fileref);
 		Epesi.loaded_csses[Epesi.loaded_csses.size()] = file;
 		return true;
+	},
+	setCookie: function (key, value, expires) {
+		if (!expires) {
+			expires = '0';
+		} else {
+			var d = new Date();
+			expires.setTime(d.getTime() + expires);
+			expires = expires.toUTCString();
+		}
+		document.cookie = key + '=' + value + ';expires=' + expires;
+	},
+	getCookie: function (key) {
+		var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+		return keyValue ? keyValue[2] : null;
+	},
+	deleteCookie: function (key) {
+		document.cookie = key + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 	}
 };
 _chj=Epesi.href;
@@ -291,7 +308,7 @@ onCreate: function(x,y) { //hack
 	else if (typeof x.options.requestHeaders.push == 'function')
 		x.options.requestHeaders.push('X-Client-ID',Epesi.client_id);
 	else
-		x.options.requestHeaders = $H(x.options.requestHeaders).merge({'X-Client-ID': Epesi.client_id});	
+		x.options.requestHeaders = $H(x.options.requestHeaders).merge({'X-Client-ID': Epesi.client_id});
 },
 onException: function(req, e){
 	alert(e);
