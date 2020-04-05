@@ -59,15 +59,17 @@ class Telemarketing_CallCampaigns_DispositionsInstall extends ModuleInstall
                 array('Telemarketing_CallCampaigns_DispositionsCommon', 'phonecall_addon_label')
             );
 
-//            $phonecall_disposition = new RBO_Field_Select(
-//                _M("Call Disposition"),
-//                Telemarketing_CallCampaigns_Dispositions_RBO_Status::TABLE_NAME,
-//                array('Call Campaign', 'Disposition'),
-//                array('Telemarketing_CallCampaigns_DispositionsCommon', 'phonecall_disposition_crits')
-//            );
-//            Utils_RecordBrowserCommon::new_record_field(
-//                'phonecall', $phonecall_disposition->get_definition()
-//            );
+            Utils_RecordBrowserCommon::new_addon(
+                "contact",
+                self::module_name(), 'contact_addon',
+                array('Telemarketing_CallCampaigns_DispositionsCommon', 'contact_addon_label')
+            );
+
+            Utils_RecordBrowserCommon::new_addon(
+                "company",
+                self::module_name(), 'company_addon',
+                array('Telemarketing_CallCampaigns_DispositionsCommon', 'company_addon_label')
+            );
 
             $blacklist = new Telemarketing_CallCampaigns_Dispositions_RBO_Blacklists();
             if ($blacklist->install()) {
@@ -114,7 +116,6 @@ class Telemarketing_CallCampaigns_DispositionsInstall extends ModuleInstall
             array('Telemarketing_CallCampaigns_DispositionsCommon', 'submit_blacklist')
         );
         if ($blacklist->uninstall()) {
-            Utils_RecordBrowserCommon::delete_record_field('phonecall', 'Call Status');
             $call_dispositions = new Telemarketing_CallCampaigns_Dispositions_RBO_Status();
             if ($call_dispositions->uninstall()) {
                 Utils_CommonDataCommon::remove('CallCampaign/Dispositions');
@@ -128,6 +129,18 @@ class Telemarketing_CallCampaigns_DispositionsInstall extends ModuleInstall
                 Utils_RecordBrowserCommon::delete_addon(
                     Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME,
                     self::module_name(), 'disposition_addon'
+                );
+                Utils_RecordBrowserCommon::delete_addon(
+                    'phonecall',
+                    self::module_name(), 'phonecall_addon'
+                );
+                Utils_RecordBrowserCommon::delete_addon(
+                    'contact',
+                    self::module_name(), 'contact_addon'
+                );
+                Utils_RecordBrowserCommon::delete_addon(
+                    'company',
+                    self::module_name(), 'company_addon'
                 );
                 return true;
             }

@@ -39,6 +39,19 @@ class Telemarketing_CallCampaignsCommon extends ModuleCommon
 
     public static function submit_call_campaign($values, $mode)
     {
+        if ($mode == 'view' || $mode == 'display' || $mode == 'edit') {
+            $my = CRM_ContactsCommon::get_my_record();
+            if (ModuleManager::is_installed("Apps/Dialer") >= 0 && in_array($my["id"], $values['telemarketers'])) {
+                Base_ActionBarCommon::add(
+                    Base_ThemeCommon::get_template_file("Apps/Dialer", 'icon.png'),
+                    __('Dialer'),
+                    Base_BoxCommon::create_href(
+                        self::module_name(),
+                        'Apps_Dialer', 'body', array($values)
+                    )
+                );
+            }
+        }
         if ($mode === "editing" || $mode === "adding") {
             load_js("modules/" . Telemarketing_CallCampaignsInstall::module_name() . "/js/campaigns.js");
             eval_js("CallCampaigns.init();");

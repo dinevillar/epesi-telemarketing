@@ -8,9 +8,37 @@ defined("_VALID_ACCESS") || die('Direct access forbidden');
 
 class Telemarketing_CallCampaigns_Dispositions extends Module
 {
-    public function phonecall_addon()
+    public function contact_addon($record)
     {
+        $a = new Telemarketing_CallCampaigns_Dispositions_RBO_Status();
+        $rb = $a->create_rb_module($this);
+        $rb->set_button(false);
+        $this->display_module($rb, array(
+            array('record_id' => $record['id'], 'record_type' => 'contact', '!disposition' => ''),
+            array('timestamp' => true, 'record_id' => false, 'call_back_time' => true)
+        ), 'show_data');
+    }
 
+    public function company_addon($record)
+    {
+        $a = new Telemarketing_CallCampaigns_Dispositions_RBO_Status();
+        $rb = $a->create_rb_module($this);
+        $rb->set_button(false);
+        $this->display_module($rb, array(
+            array('record_id' => $record['id'], 'record_type' => 'company', '!disposition' => ''),
+            array('timestamp' => true, 'record_id' => false, 'call_back_time' => true)
+        ), 'show_data');
+    }
+
+    public function phonecall_addon($record)
+    {
+        $a = new Telemarketing_CallCampaigns_Dispositions_RBO_Status();
+        $rb = $a->create_rb_module($this);
+        $rb->set_button(false);
+        $this->display_module($rb, array(
+            array('phonecall' => $record['id'], '!disposition' => ''),
+            array('timestamp' => true, 'phonecall' => false, 'record_id' => false, 'call_back_time' => true)
+        ), 'show_data');
     }
 
     public function disposition_addon($record)

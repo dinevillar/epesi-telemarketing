@@ -36,8 +36,8 @@ class Apps_Dialer extends Module
     public function body($campaign = false)
     {
         if ($this->is_back()) {
-            Base_BoxCommon::pop_main();
-            return;
+            location(array());
+            return false;
         }
 
         Base_HelpCommon::screen_name('call_campaign_dialer');
@@ -258,12 +258,14 @@ class Apps_Dialer extends Module
         $active_campaigns = Telemarketing_CallCampaignsCommon::get_active_campaigns();
         $content = "<div style='width:50%;margin:50px auto;text-align:center;'>";
         $form = null;
-        if (count($active_campaigns) > 0) {
-            $form = $this->init_module(Libs_QuickForm::module_name(), null, "select_campaign_form");
-            $campaign_selection = array("" => "--");
-            foreach ($active_campaigns as $campaign) {
+        $campaign_selection = array();
+        foreach ($active_campaigns as $campaign) {
+            if (in_array(Acl::get_user(), $campaign['telemarketers'])) {
                 $campaign_selection[$campaign['id']] = $campaign['name'];
             }
+        }
+        if (count($campaign_selection) > 0) {
+            $form = $this->init_module(Libs_QuickForm::module_name(), null, "select_campaign_form");
             $form->addElement("select", "call_campaign", __("Call Campaign"), $campaign_selection);
             $form->addRule(
                 "call_campaign",
@@ -280,15 +282,10 @@ class Apps_Dialer extends Module
             $form->display_as_column();
             $content .= ob_get_clean();
         } else {
-            $create_campaign_href = Base_BoxCommon::create_href(
-                $this,
-                "Utils/RecordBrowserCommon",
-                "view_entry",
-                array("add"),
-                array(Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME)
-            );
+            $create_campaign_href_js = $this->create_callback_href_js(array($this, 'redirect_to_new_campaign'));
+            $create_campaign_href_js .= "leightbox_deactivate('select_call_campaign');";
             $content .= "<h2>" . __("There are currently no active campaigns.") . "</h2>";
-            $content .= " <h3><a $create_campaign_href>Please click here to add a new call campaign.</a></h3>";
+            $content .= " <h3><a href=\"javascript:void(0)\" onclick=\"$create_campaign_href_js\">Please click here to add a new call campaign.</a></h3>";
         }
         $content .= "</div>";
         Libs_LeightboxCommon::display("select_call_campaign", $content, __("Select Campaign"));
@@ -297,8 +294,17 @@ class Apps_Dialer extends Module
             eval_js_once('leightbox_activate(\'select_call_campaign\');');
         } else {
             Base_ActionBarCommon::add("folder", __("Select Campaign"), Libs_LeightboxCommon::get_open_href("select_call_campaign") . " style=\"float:right;\"");
-            Libs_LeightboxCommon::close('select_call_campaign');
+            eval_js_once('leightbox_deactivate(\'select_call_campaign\');');
         }
+    }
+
+    public function redirect_to_new_campaign()
+    {
+        $my = CRM_ContactsCommon::get_my_record();
+        Base_BoxCommon::push_module("Utils/RecordBrowser", 'view_entry', array(
+            "add", null, array("telemarketers" => $my["id"])),
+            array(Telemarketing_CallCampaigns_RBO_Campaigns::TABLE_NAME));
+        return true;
     }
 
     public function set_defaults($values = array())
@@ -829,10 +835,10 @@ class Apps_Dialer extends Module
             $methods[$values['dialer']] . ' dialer.'
         );
         if ($called_rules = Telemarketing_CallCampaigns_RulesCommon::match_rules(
-            $this->campaign, 'Record', 'Called')
+            $this->campaign, 'Record', false, 'Called')
         ) {
             foreach ($called_rules as $called_rule) {
-                Apps_DialerCommon::process_rule_action(
+                $return = Apps_DialerCommon::process_rule_action(
                     $called_rule,
                     $this->campaign,
                     $this->record,
@@ -841,6 +847,9 @@ class Apps_Dialer extends Module
                     $this->disposition,
                     $values
                 );
+                if ($called_rule["action"] === "AutoAdd:Phonecall" && $return) {
+                    $this->set_module_variable('dialer_phonecall', $return);
+                }
             }
         }
         $this->set_module_variable('dialer_in_call', true);
@@ -855,20 +864,20 @@ class Apps_Dialer extends Module
             $this->disposition,
             "Call ended for {$phone}"
         );
-        if ($this->isset_module_variable('dialer_phonecall')) {
-            $phonecall_id = $this->get_module_variable('dialer_phonecall');
-            $phonecall = Utils_RecordBrowserCommon::get_record('phonecall', $phonecall_id);
-            $phonecall['status'] = 3;
-            if ($values['disposition'] == 'BNA') {
-                $phonecall['call_status'] = 'BNA';
-            } else if ($values['disposition'] == 'WDN') {
-                $phonecall['call_status'] = 'WDN';
-            } else {
-                $phonecall['call_status'] = 'COM';
-            }
-            Utils_RecordBrowserCommon::update_record('phonecall', $phonecall_id, $phonecall);
-            $this->unset_module_variable('dialer_phonecall');
-        }
+//        if ($this->isset_module_variable('dialer_phonecall')) {
+//            $phonecall_id = $this->get_module_variable('dialer_phonecall');
+//            $phonecall = Utils_RecordBrowserCommon::get_record('phonecall', $phonecall_id);
+//            $phonecall['status'] = 3;
+//            if ($values['disposition'] == 'BNA') {
+//                $phonecall['call_status'] = 'BNA';
+//            } else if ($values['disposition'] == 'WDN') {
+//                $phonecall['call_status'] = 'WDN';
+//            } else {
+//                $phonecall['call_status'] = 'COM';
+//            }
+//            Utils_RecordBrowserCommon::update_record('phonecall', $phonecall_id, $phonecall);
+//            $this->unset_module_variable('dialer_phonecall');
+//        }
         $this->unset_module_variable('dialer_in_call');
         eval_js("Dialer.show_dialog(\"disposition\")");
     }
@@ -918,6 +927,10 @@ class Apps_Dialer extends Module
         $this->disposition['telemarketer'] = $me['id'];
         if ($values['disposition'] != "WDN") {
             $this->disposition['timestamp'] = date('Y-m-d H:i:s');
+        }
+        if ($this->isset_module_variable('dialer_phonecall')) {
+            $this->disposition['phonecall'] = $this->get_module_variable('dialer_phonecall');
+            $this->unset_module_variable('dialer_phonecall');
         }
         Utils_RecordBrowserCommon::update_record(
             Telemarketing_CallCampaigns_Dispositions_RBO_Status::TABLE_NAME, $this->disposition['id'], $this->disposition

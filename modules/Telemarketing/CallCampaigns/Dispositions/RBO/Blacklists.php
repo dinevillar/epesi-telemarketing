@@ -32,7 +32,7 @@ class Telemarketing_CallCampaigns_Dispositions_RBO_Blacklists extends RBO_Record
         $disposition = new RBO_Field_Select(
             _M('Disposition'),
             Telemarketing_CallCampaigns_Dispositions_RBO_Status::TABLE_NAME,
-            ['Lead', 'Disposition', 'Call Campaign']
+            ['Record Type', 'Record ID', 'Disposition', 'Call Campaign']
         );
         $disposition->set_visible()->set_filter();
         $fields[] = $disposition;

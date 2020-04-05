@@ -298,7 +298,7 @@ class Apps_DialerCommon extends ModuleCommon
             }
         }
 
-        if ($origType === 'criteria' && $criteria) {
+        if ($origType === 'crm_criteria' && $criteria) {
             $criteria_raw = CRM_CriteriaCommon::get_raw_crits($criteria, $criteria['recordset']);
             $criteria_params = $criteria_raw[1] ? $criteria_raw[1] : array();
             if ($criteria_raw[0]) {
@@ -353,8 +353,8 @@ class Apps_DialerCommon extends ModuleCommon
                 $disposition
             );
         }
-        $tab = disposition['record_type'];
-        $id = disposition['record_id'];
+        $tab = $disposition['record_type'];
+        $id = $disposition['record_id'];
         Utils_AttachmentCommon::add("$tab/$id", 0, Acl::get_user(), $log);
     }
 

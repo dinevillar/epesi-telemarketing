@@ -50,6 +50,30 @@ class Telemarketing_CallCampaigns_DispositionsCommon extends ModuleCommon
         return array('show' => false);
     }
 
+    public static function phonecall_addon_label()
+    {
+        if (Base_AclCommon::check_permission(Telemarketing_CallCampaignsInstall::manage_permission)) {
+            return array('label' => __('Dispositions'));
+        }
+        return array('show' => false);
+    }
+
+    public static function contact_addon_label()
+    {
+        if (Base_AclCommon::check_permission(Telemarketing_CallCampaignsInstall::manage_permission)) {
+            return array('label' => __('Dispositions'));
+        }
+        return array('show' => false);
+    }
+
+    public static function company_addon_label()
+    {
+        if (Base_AclCommon::check_permission(Telemarketing_CallCampaignsInstall::manage_permission)) {
+            return array('label' => __('Dispositions'));
+        }
+        return array('show' => false);
+    }
+
     public static function blacklist_watchdog_label($rid = null, $events = array(), $details = true)
     {
         return Utils_RecordBrowserCommon::watchdog_label(

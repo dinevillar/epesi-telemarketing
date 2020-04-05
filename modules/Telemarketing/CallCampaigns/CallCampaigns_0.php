@@ -28,7 +28,8 @@ class Telemarketing_CallCampaigns extends Module
         $rb->set_default_order(array('start_date' => 'DESC'));
         $rb->set_additional_actions_method(array($this, 'cc_campaigns_actions'));
 
-        if (ModuleManager::is_installed("Telemarketing/CallCampaigns/Dispositions") >= 0) {
+        if (Base_AclCommon::check_permission(Telemarketing_CallCampaignsInstall::manage_permission) &&
+            ModuleManager::is_installed("Telemarketing/CallCampaigns/Dispositions") >= 0) {
             $bl_type = Base_ThemeCommon::get_template_file(
                 Telemarketing_CallCampaigns_DispositionsInstall::module_name(), 'blacklist.png'
             );
@@ -41,7 +42,21 @@ class Telemarketing_CallCampaigns extends Module
 
     public function blacklisted_records()
     {
-
+        if (ModuleManager::is_installed("Telemarketing/CallCampaigns/Dispositions") >= 0) {
+            if ($this->is_back()) {
+                location(array());
+                return false;
+            }
+            $blacklist = new Telemarketing_CallCampaigns_Dispositions_RBO_Blacklists();
+            $blacklist->set_caption(__('Call Campaigns'));
+            $blacklist->register_processing_callback(array('Telemarketing_CallCampaigns_DispositionsCommon', 'submit_blacklist'));
+            $blacklist_rb = $blacklist->create_rb_module($this, 'blacklisted_records');
+            $blacklist_rb->set_button('');
+            $blacklist_rb->set_additional_caption(__('Blacklisted Records'));
+            Base_ActionBarCommon::add('back', __('Back'), $this->create_back_href());
+            $this->display_module($blacklist_rb);
+            return true;
+        }
     }
 
     public function settings_addon($campaign)
@@ -221,5 +236,20 @@ class Telemarketing_CallCampaigns extends Module
             $tabbed_browser->set_tab($details['label'], array($mod, $details['func']));
         }
         $this->display_module($tabbed_browser);
+    }
+
+    public function cc_campaigns_actions($record, $gb_row)
+    {
+        $my = CRM_ContactsCommon::get_my_record();
+        if (ModuleManager::is_installed("Apps/Dialer") >= 0 && in_array($my["id"], $record['telemarketers'])) {
+            $icon = Base_ThemeCommon::get_template_file("Apps_Dialer", 'icon-small.png');
+            $tag_attrs = Base_BoxCommon::create_href(
+                $this, "Apps_Dialer", 'body', [
+                    $record
+                ]
+            );
+            $tag_attrs .= "class='dialer_button' ";
+            $gb_row->add_action($tag_attrs, __('Dialer'), NULL, $icon);
+        }
     }
 }

@@ -332,6 +332,7 @@ class Telemarketing_CallCampaigns_RulesCommon extends ModuleCommon
 
     public static function process_rule_action($rule, $campaign, $record, $record_type = 'contact', $product = false, $disposition = false, $values = false)
     {
+        var_dump($rule);
         $customer = ($record_type == 'contact' ? 'P:' : 'C:') . $record['id'];
         if (isset($values['phone'])) {
             $phone = $values['phone'] == 'home_phone' ? 3 : $values['phone'] == 'mobile_phone' ? 1 : 2;
