@@ -259,8 +259,9 @@ class Apps_Dialer extends Module
         $content = "<div style='width:50%;margin:50px auto;text-align:center;'>";
         $form = null;
         $campaign_selection = array();
+        $my = CRM_ContactsCommon::get_my_record();
         foreach ($active_campaigns as $campaign) {
-            if (in_array(Acl::get_user(), $campaign['telemarketers'])) {
+            if (in_array($my["id"], $campaign['telemarketers'])) {
                 $campaign_selection[$campaign['id']] = $campaign['name'];
             }
         }
@@ -272,7 +273,9 @@ class Apps_Dialer extends Module
                 __("Value required"),
                 'required'
             );
-            $form->addElement("submit", "", __("Select"));
+            $submit_href = $form->get_submit_form_js();
+            $submit_href .= "leightbox_deactivate('select_call_campaign');";
+            $form->addElement("button", "", __("Select"), array("onclick" => $submit_href));
             if ($form->validate()) {
                 $campaign = $form->exportValue("call_campaign");
                 Base_BoxCommon::push_module(self::module_name(), 'body', array($campaign));
@@ -294,7 +297,6 @@ class Apps_Dialer extends Module
             eval_js_once('leightbox_activate(\'select_call_campaign\');');
         } else {
             Base_ActionBarCommon::add("folder", __("Select Campaign"), Libs_LeightboxCommon::get_open_href("select_call_campaign") . " style=\"float:right;\"");
-            eval_js_once('leightbox_deactivate(\'select_call_campaign\');');
         }
     }
 
@@ -721,6 +723,14 @@ class Apps_Dialer extends Module
             $first_content,
             'emp'
         );
+        if (ModuleManager::is_installed("Telemarketing/Products") >= 0 && $this->campaign["product"]) {
+            $first_content = Utils_MergeFieldsCommon::parse_fields(
+                Telemarketing_Products_RBO_Products::TABLE_NAME,
+                $this->campaign["product"],
+                $first_content,
+                'product'
+            );
+        }
 
         $pageCache = array('1' => $first_content);
         $callscript['content'] = $first_content;
@@ -738,6 +748,14 @@ class Apps_Dialer extends Module
                     $target_content,
                     'emp'
                 );
+                if (ModuleManager::is_installed("Telemarketing/Products") >= 0 && $this->campaign["product"]) {
+                    $target_content = Utils_MergeFieldsCommon::parse_fields(
+                        Telemarketing_Products_RBO_Products::TABLE_NAME,
+                        $this->campaign["product"],
+                        $target_content,
+                        'product'
+                    );
+                }
                 $pageCache[$v['page']] = $target_content;
             }
         }
@@ -864,20 +882,12 @@ class Apps_Dialer extends Module
             $this->disposition,
             "Call ended for {$phone}"
         );
-//        if ($this->isset_module_variable('dialer_phonecall')) {
-//            $phonecall_id = $this->get_module_variable('dialer_phonecall');
-//            $phonecall = Utils_RecordBrowserCommon::get_record('phonecall', $phonecall_id);
-//            $phonecall['status'] = 3;
-//            if ($values['disposition'] == 'BNA') {
-//                $phonecall['call_status'] = 'BNA';
-//            } else if ($values['disposition'] == 'WDN') {
-//                $phonecall['call_status'] = 'WDN';
-//            } else {
-//                $phonecall['call_status'] = 'COM';
-//            }
-//            Utils_RecordBrowserCommon::update_record('phonecall', $phonecall_id, $phonecall);
-//            $this->unset_module_variable('dialer_phonecall');
-//        }
+        if ($this->isset_module_variable('dialer_phonecall')) {
+            $phonecall_id = $this->get_module_variable('dialer_phonecall');
+            $phonecall = Utils_RecordBrowserCommon::get_record('phonecall', $phonecall_id);
+            $phonecall['status'] = 3;
+            Utils_RecordBrowserCommon::update_record('phonecall', $phonecall_id, $phonecall);
+        }
         $this->unset_module_variable('dialer_in_call');
         eval_js("Dialer.show_dialog(\"disposition\")");
     }

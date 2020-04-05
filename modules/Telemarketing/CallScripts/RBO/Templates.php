@@ -100,6 +100,9 @@ class Telemarketing_CallScripts_RBO_Templates extends RBO_Recordset
                 "Target" => Utils_MergeFieldsCommon::get_fields("contact", $excluded_target_fields),
                 "Employee" => Utils_MergeFieldsCommon::get_fields("contact", $excluded_target_fields, "emp")
             );
+            if (ModuleManager::is_installed("Telemarketing/Products") >= 0) {
+                $placeholders["Product"] = Utils_MergeFieldsCommon::get_fields(Telemarketing_Products_RBO_Products::TABLE_NAME, array(), "product");
+            }
             eval_js("CallScripts.mergeFields = " . json_encode($placeholders));
             $placeholders_html = Utils_MergeFieldsCommon::get_accordion_html_for_ck($form, $fck, _M('Insert Merge Field'), $placeholders);
             $form->addElement('static', 'placeholders', '', $placeholders_html);

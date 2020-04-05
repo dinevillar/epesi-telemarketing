@@ -608,7 +608,7 @@ class Apps_DialerCommon extends ModuleCommon
                             ), array('crm_meeting'));
                         break;
                     case 'SalesOpportunity':
-                        if (!ModuleManager::is_installed("Premium/SalesOpportunity") >= 0) {
+                        if (ModuleManager::is_installed("Premium/SalesOpportunity") < 0) {
                             return null;
                         }
                         $defaults = array(
@@ -688,7 +688,7 @@ class Apps_DialerCommon extends ModuleCommon
                 switch ($action[1]) {
                     case 'Phonecall':
                         $phonecall = array(
-                            'subject' => Telemarketing_CallCampaigns_RulesCommon::parse_rule_merge(
+                            'subject' => substr(Telemarketing_CallCampaigns_RulesCommon::parse_rule_merge(
                                 $details['add_phonecall_subject'],
                                 $campaign,
                                 $record,
@@ -696,7 +696,7 @@ class Apps_DialerCommon extends ModuleCommon
                                 $product,
                                 $disposition,
                                 $values
-                            ),
+                            ), 0, 64),
                             'permission' => $details['add_phonecall_permission'],
                             'status' => $details['add_phonecall_status'],
                             'priority' => $details['add_phonecall_priority'],
@@ -844,7 +844,7 @@ class Apps_DialerCommon extends ModuleCommon
                         $return = Utils_RecordBrowserCommon::new_record('crm_meeting', $defaults);
                         break;
                     case 'SalesOpportunity':
-                        if (!ModuleManager::is_installed("Premium/SalesOpportunity") >= 0) {
+                        if (ModuleManager::is_installed("Premium/SalesOpportunity") < 0) {
                             return null;
                         }
                         $defaults = array(

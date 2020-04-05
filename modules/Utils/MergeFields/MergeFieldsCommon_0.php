@@ -62,6 +62,9 @@ class Utils_MergeFieldsCommon extends ModuleCommon
 
     public static function parse_fields($recordset, $record, $text, $prefix = "", $excluded_fields = array(), $excluded_field_types = array())
     {
+        if (is_numeric($record)) {
+            $record = Utils_RecordBrowserCommon::get_record($recordset, $record);
+        }
         if ($record['id'] == -1) {
             //do nothing
             return $text;
