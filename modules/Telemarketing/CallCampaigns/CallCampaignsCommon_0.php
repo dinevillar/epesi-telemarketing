@@ -19,7 +19,7 @@ class Telemarketing_CallCampaignsCommon extends ModuleCommon
 
     public static function settings_addon_label($campaign)
     {
-        if ($campaign['created_on'] === Acl::get_user() || Base_AclCommon::check_permission('Manage Call Campaigns')) {
+        if ($campaign['created_by'] === Acl::get_user() || Base_AclCommon::check_permission('Manage Call Campaigns')) {
             return array('label' => __('Settings'));
         }
         return array('show' => false);

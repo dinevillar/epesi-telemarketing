@@ -12,7 +12,7 @@ class Telemarketing_CallCampaigns_RulesCommon extends ModuleCommon
     public static function rules_addon_label($campaign)
     {
         if (
-            $campaign['created_on'] === Acl::get_user() ||
+            $campaign['created_by'] === Acl::get_user() ||
             Base_AclCommon::check_permission(Telemarketing_CallCampaignsInstall::manage_permission)
         ) {
             return array('label' => __('Rules'));

@@ -16,9 +16,10 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "@composer -d=\"modules/CRM/Mail\" install",
-            "@composer -d=\"modules/Libs/PHPExcel\" install",
-            "@composer -d=\"modules/Libs/TCPDF\" install"
+            "composer install --working-dir=modules/CRM/Mail",
+            "composer install --working-dir=modules/Libs/PHPExcel",
+            "composer install --working-dir=modules/Libs/TCPDF",
+            "composer install --working-dir=modules/Libs/GoogleMaps"
         ]
     },
     "autoload": {
