@@ -1,5 +1,5 @@
 # Installation data dir
-data/*
+data*
 
 # htaccess file
 .htaccess
@@ -16,7 +16,6 @@ modules/*
 !modules/Tests
 !modules/Tools
 !modules/Utils
-!modules/Telemarketing
 
 # IDE dirs/files
 .idea
@@ -26,6 +25,5 @@ Thumbs.db
 # Composer packages directory
 vendor
 !modules/CRM/Roundcube/RC/vendor
-!modules/Libs/Twilio/vendor
 
 tests/config.yml
