@@ -116,23 +116,6 @@ var Epesi = {
                 this.forms_freezed[f] = this.forms[f];
                 delete this.forms[f];
             }
-        },
-        setCookie: function (key, value, expires) {
-            if (!expires) {
-                expires = '0';
-            } else {
-                var d = new Date();
-                expires.setTime(d.getTime() + expires);
-                expires = expires.toUTCString();
-            }
-            document.cookie = key + '=' + value + ';expires=' + expires;
-        },
-        getCookie: function (key) {
-            var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
-            return keyValue ? keyValue[2] : null;
-        },
-        deleteCookie: function (key) {
-            document.cookie = key + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         }
     },
     updateIndicator: function () {
