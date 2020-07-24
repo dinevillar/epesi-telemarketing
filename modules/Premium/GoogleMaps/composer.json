@@ -1,0 +1,14 @@
+{
+    "name": "dinevillar/contact-local-time-epesi",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dine Villar",
+            "email": "dean.villar@gmail.com"
+        }
+    ],
+    "require": {
+        "yidas/google-maps-services": "^1.0"
+    }
+}
