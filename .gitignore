@@ -17,6 +17,12 @@ modules/*
 !modules/Tools
 !modules/Utils
 
+# Premium Modules
+!modules/Premium/Criteria
+!modules/Premium/GoogleMaps
+!modules/Premium/Telemarketing
+!modules/Premium/WebPhone
+
 # IDE dirs/files
 .idea
 
